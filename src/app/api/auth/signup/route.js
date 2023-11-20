@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     await connectDB()
 
-    const { username, email, password } = await request.json()
+    const { username, email, password, role } = await request.json()
 
     if (password < 6)
       return NextResponse.json(
@@ -34,6 +34,7 @@ export async function POST(request) {
       username,
       email,
       password: hashedPassword,
+      role,
     })
 
     const savedUser = await user.save()
@@ -43,6 +44,7 @@ export async function POST(request) {
       {
         username,
         email,
+        role,
         createdAt: savedUser.createdAt,
         updatedAt: savedUser.updatedAt,
       },

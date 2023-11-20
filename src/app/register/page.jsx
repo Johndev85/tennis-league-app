@@ -28,10 +28,11 @@ const Register = () => {
     e.preventDefault()
     try {
       const formData = new FormData(e.currentTarget)
-      const signupResponse = await axios.post("/api/auth/register", {
+      const signupResponse = await axios.post("/api/auth/signup", {
         username: formData.get("username"),
         email: formData.get("email"),
         password: formData.get("password"),
+        role: "user",
       })
       console.log(signupResponse)
       const res = await signIn("credentials", {

@@ -70,15 +70,7 @@ function Login() {
           </div>
 
           <button className={styles.btnGoogle} onClick={handleGoogleLogin}>
-            <Image
-              src={googleIcon}
-              alt="google"
-              width={20}
-              height={20}
-              Login
-              with
-              Google
-            />
+            <Image src={googleIcon} alt="google" width={20} height={20} />
             Login with Google
           </button>
         </form>
