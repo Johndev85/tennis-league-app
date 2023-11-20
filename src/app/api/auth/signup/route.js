@@ -1,5 +1,5 @@
-import { connectDB } from "@/libs/mongodb"
-import User from "@/models/user"
+import { connectDB } from "@/utils/dbConnect"
+import User from "@/models/User"
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import mongoose from "mongoose"
@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     await connectDB()
 
-    const { fullname, email, password } = await request.json()
+    const { username, email, password } = await request.json()
 
     if (password < 6)
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, 12)
 
     const user = new User({
-      fullname,
+      username,
       email,
       password: hashedPassword,
     })
@@ -41,7 +41,7 @@ export async function POST(request) {
 
     return NextResponse.json(
       {
-        fullname,
+        username,
         email,
         createdAt: savedUser.createdAt,
         updatedAt: savedUser.updatedAt,

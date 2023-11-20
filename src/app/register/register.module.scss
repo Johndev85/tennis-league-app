@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  & .error {
+    padding: 10px;
+    color: #fff;
+    background-color: rgb(233, 59, 59);
+    font-weight: 600;
+  }
+  & h1 {
+    margin-bottom: 20px;
+    margin: 20px 0;
+  }
+  & .form {
+    width: 330px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #555353;
+    & input {
+      height: 30px;
+    }
+  }
+}
