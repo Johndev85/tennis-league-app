@@ -19,7 +19,13 @@ function Navbar() {
 
       {session?.user ? (
         <div className={styles.navbar}>
-          <Link href={`/dashboard/${session.user.username}`}>Dashboard</Link>
+          <Link
+            href={`/dashboard/${
+              session.user.username ? session.user.username : session.user.email
+            }`}
+          >
+            Dashboard
+          </Link>
           <p>{session.user.name}</p>
           {session.user.image && (
             <Image

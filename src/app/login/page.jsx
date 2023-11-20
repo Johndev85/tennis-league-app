@@ -1,9 +1,10 @@
 "use client"
 
-import { FormEvent, useState } from "react"
+import { useState } from "react"
 
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -14,10 +15,21 @@ import styles from "./login.module.scss"
 function Login() {
   const [error, setError] = useState("")
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   const handleGoogleLogin = () => {
-    signIn("google") // Inicia sesión con Google
+    signIn("google")
   }
+
+  useEffect(() => {
+    if (session) {
+      router.push(
+        `  /dashboard/${
+          session.user.username ? session.user.username : session.user.email
+        }`
+      )
+    }
+  }, [router, session])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,42 +46,44 @@ function Login() {
   }
 
   return (
-    <div className={styles.container}>
-      <h1>Welcome back</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {error && <div className={styles.error}>{error}</div>}
+    status !== "authenticated" && (
+      <div className={styles.container}>
+        <h1>Welcome back</h1>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {error && <div className={styles.error}>{error}</div>}
 
-        <label>Email:</label>
-        <input type="email" placeholder="Email" className="" name="email" />
+          <label>Email:</label>
+          <input type="email" placeholder="Email" className="" name="email" />
 
-        <label>Password:</label>
-        <input type="password" placeholder="Password" name="password" />
-        <input type="submit" value="Login" />
+          <label>Password:</label>
+          <input type="password" placeholder="Password" name="password" />
+          <input type="submit" value="Login" />
 
-        <div className={styles.middle}>
-          <p>
-            Dont have an account? <Link href="/register">Sign up</Link>
-          </p>
-        </div>
+          <div className={styles.middle}>
+            <p>
+              Dont have an account? <Link href="/register">Sign up</Link>
+            </p>
+          </div>
 
-        <div className={styles.middle}>
-          <span>or</span>
-        </div>
+          <div className={styles.middle}>
+            <span>or</span>
+          </div>
 
-        <button className={styles.btnGoogle} onClick={handleGoogleLogin}>
-          <Image
-            src={googleIcon}
-            alt="google"
-            width={20}
-            height={20}
-            Login
-            with
-            Google
-          />
-          Login with Google
-        </button>
-      </form>
-    </div>
+          <button className={styles.btnGoogle} onClick={handleGoogleLogin}>
+            <Image
+              src={googleIcon}
+              alt="google"
+              width={20}
+              height={20}
+              Login
+              with
+              Google
+            />
+            Login with Google
+          </button>
+        </form>
+      </div>
+    )
   )
 }
 

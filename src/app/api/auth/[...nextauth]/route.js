@@ -43,6 +43,11 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    redirect: async (url, baseUrl) => {
+      return Promise.resolve(baseUrl + "/dashboard/" + session.user.email)
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",

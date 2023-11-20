@@ -10,7 +10,9 @@ export default function Home() {
 
   useEffect(() => {
     router.push(
-      `/dashboard/${session?.user?.username}`,
+      `/dashboard/${
+        session?.user?.username ? session?.user?.username : session?.user?.email
+      }`,
       `/${session?.user?.username}`
     )
   }, [router, session])
