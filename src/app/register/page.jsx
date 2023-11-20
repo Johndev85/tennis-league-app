@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 
 import styles from "./register.module.scss"
 
-const Register = () => {
+const Signup = () => {
   const [error, setError] = useState()
   const router = useRouter()
 
@@ -55,4 +55,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Signup

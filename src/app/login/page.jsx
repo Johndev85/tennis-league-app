@@ -20,7 +20,7 @@ function Signin() {
       redirect: false,
     })
 
-    if (res?.error) setError(res.error)
+    if (res?.error) return setError(res.error)
 
     if (res?.ok) return router.push("/dashboard/profile")
   }
@@ -28,8 +28,8 @@ function Signin() {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        {error && <div className="">{error}</div>}
-        <h1>Signin</h1>
+        {error && <div className={styles.error}>{error}</div>}
+        <h1>Login</h1>
 
         <label>Email:</label>
         <input type="email" placeholder="Email" className="" name="email" />
@@ -37,7 +37,7 @@ function Signin() {
         <label>Password:</label>
         <input type="password" placeholder="Password" name="password" />
 
-        <button>Signup</button>
+        <input type="submit" value="Login" />
       </form>
     </div>
   )
