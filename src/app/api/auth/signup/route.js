@@ -1,17 +1,56 @@
 import { NextResponse } from "next/server"
-import { dbConnect } from "@/utils/dbConnect"
+import { connectDB } from "@/utils/dbConnect"
 import User from "@/models/User"
+import NextAuth from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import bcrypt from "bcryptjs"
 
-export async function POST(request) {
-  await dbConnect()
+const handler = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      id: "credentials",
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        await connectDB()
+        const userFound = await User.findOne({
+          email: credentials?.email,
+        }).select("+password")
 
-  const { username, email, password } = await request.json()
+        if (!userFound) throw new Error("Invalid credentials")
 
-  const user = await User.create({
-    username,
-    email,
-    password,
-  })
+        const passwordMatch = await bcrypt.compare(
+          credentials?.password,
+          userFound.password
+        )
 
-  return NextResponse.redirect("/api/auth/login")
-}
+        if (!passwordMatch) throw new Error("Invalid credentials")
+
+        console.log(userFound)
+
+        return userFound
+      },
+    }),
+  ],
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user
+      return token
+    },
+    async session({ session, token }) {
+      session.user = token.user
+      return session
+    },
+  },
+})
+
+export { handler as GET, handler as POST }

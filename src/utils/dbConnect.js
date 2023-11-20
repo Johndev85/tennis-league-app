@@ -1,14 +1,20 @@
 import mongoose from "mongoose"
 
-const connection = {}
+const { MONGODB_URI } = process.env
 
-export async function dbConnect() {
-  if (connection.isConnected) {
-    return
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI must be defined")
+}
+
+export const connectDB = async () => {
+  try {
+    const { connection } = await mongoose.connect(MONGODB_URI)
+    if (connection.readyState === 1) {
+      console.log("MongoDB Connected")
+      return Promise.resolve(true)
+    }
+  } catch (error) {
+    console.error(error)
+    return Promise.reject(error)
   }
-
-  const db = await mongoose.connect(process.env.MONGODB_URI)
-  console.log("Connected to database: " + db.connection.db.databaseName)
-
-  connection.isConnected = db.connections[0].readyState
 }
