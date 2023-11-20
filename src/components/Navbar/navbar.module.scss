@@ -1,0 +1,28 @@
+.container {
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background: #7c7c7c;
+  & a {
+    text-decoration: none;
+    color: #fff;
+  }
+  & .navbar {
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    & img {
+      border-radius: 50%;
+    }
+    & li {
+      list-style: none;
+      & a {
+        color: #fff;
+        font-weight: 500;
+      }
+    }
+  }
+}

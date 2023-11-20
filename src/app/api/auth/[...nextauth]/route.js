@@ -2,6 +2,7 @@ import { connectDB } from "@/utils/dbConnect"
 import User from "@/models/User"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
 import bcrypt from "bcryptjs"
 
 const handler = NextAuth({
@@ -37,7 +38,12 @@ const handler = NextAuth({
         return userFound
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },

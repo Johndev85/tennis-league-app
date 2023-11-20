@@ -1,6 +1,19 @@
-import Image from "next/image"
-import styles from "./page.module.scss"
+"use client"
+
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+import { signIn, useSession, signOut } from "next-auth/react"
 
 export default function Home() {
-  return <h1>Homapage</h1>
+  const router = useRouter()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    router.push(
+      `/dashboard/${session?.user?.username}`,
+      `/${session?.user?.username}`
+    )
+  }, [router, session])
+
+  return null
 }

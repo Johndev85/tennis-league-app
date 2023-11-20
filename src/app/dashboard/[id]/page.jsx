@@ -1,6 +1,8 @@
 "use client"
 
 import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/router"
+import Navbar from "@/components/Navbar/Navbar"
 
 function ProfilePage() {
   const { data: session, status } = useSession()
@@ -9,7 +11,7 @@ function ProfilePage() {
 
   return (
     <div className="">
-      <h1 className="">Profile</h1>
+      <h1 className="">Profile: </h1>
 
       <pre className="">
         {JSON.stringify(
