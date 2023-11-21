@@ -5,11 +5,9 @@ import styles from "./dashboard.module.scss"
 
 //libraries
 import { useSession, signOut } from "next-auth/react"
-import { useRouter } from "next/router"
-import Navbar from "@/components/Navbar/Navbar"
 
 //pages
-import UsersListPage from "@/app/users/page"
+import UsersListPage from "../users-list/page"
 
 function ProfilePage() {
   const { data: session, status } = useSession()

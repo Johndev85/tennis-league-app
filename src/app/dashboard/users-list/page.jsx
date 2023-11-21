@@ -27,8 +27,6 @@ const UsersListPage = () => {
 
   if (loading) return <p>Loading...</p>
 
-  console.log("users", users)
-
   return (
     <section className={styles.container}>
       <h1>dashboard admin</h1>

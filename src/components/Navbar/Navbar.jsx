@@ -9,8 +9,6 @@ import styles from "./navbar.module.scss"
 function Navbar() {
   const { data: session } = useSession()
 
-  console.log("session", session)
-
   return (
     <nav className={styles.container}>
       <Link href="/">

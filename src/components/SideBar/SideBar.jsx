@@ -7,10 +7,10 @@ const SideBar = () => {
     <section className={styles.sidebar}>
       <ul>
         <li>
-          <Link href="/users"> users</Link>
+          <Link href="/dashboard/users-list"> users</Link>
         </li>
         <li>
-          <Link href="/tournaments">tournaments </Link>
+          <Link href="/dashboard/tournaments">tournaments </Link>
         </li>
       </ul>
     </section>
