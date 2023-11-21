@@ -6,6 +6,8 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Image from "next/image"
 
+import CardTournament from "@/components/CardTournament/CardTournament"
+
 const TournamentPage = () => {
   const [tournaments, setTournaments] = useState([])
   const [formState, setFormState] = useState({
@@ -16,18 +18,21 @@ const TournamentPage = () => {
     image: "",
   })
 
-  // useEffect(() => {
-  //   const fetchTournaments = async () => {
-  //     const res = await axios.get("/api/tournaments")
-  //     setTournaments(res.data)
-  //   }
+  const fetchTournaments = async () => {
+    const res = await axios.get("/api/tournaments")
+    console.log("res", res)
+    setTournaments(res.data.tournaments)
+  }
 
-  //   fetchTournaments()
-  // }, [])
+  useEffect(() => {
+    fetchTournaments()
+  }, [])
 
   async function createTournament(tournament) {
-    console.log("tournament", tournament)
     try {
+      const formData = new FormData()
+      formData.append("image", tournament.image)
+
       const response = await fetch("/api/tournaments", {
         method: "POST",
         headers: {
@@ -38,20 +43,23 @@ const TournamentPage = () => {
           initial_date: tournament.initial_date,
           final_date: tournament.final_date,
           location: tournament.location,
-          image: tournament.image,
+          image: formData.image,
         }),
       })
+
+      fetchTournaments()
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-
       return await response.json()
     } catch (error) {
       console.error(`Error creating tournament: ${error}`)
       throw error
     }
   }
+
+  console.log("tournaments", tournaments)
 
   async function updateTournament(id, tournament) {
     try {
@@ -73,10 +81,17 @@ const TournamentPage = () => {
   }
 
   const handleInputChange = (event) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }))
+    if (event.target.name === "image") {
+      setFormState({
+        ...formState,
+        image: event.target.files[0],
+      })
+    } else {
+      setFormState((prevState) => ({
+        ...prevState,
+        [event.target.name]: event.target.value,
+      }))
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -146,9 +161,8 @@ const TournamentPage = () => {
           <input
             type="file"
             name="image"
-            value={formState.image}
+            accept="image/*"
             onChange={handleInputChange}
-            placeholder="Image URL"
           />
           <button type="submit">Create Tournament</button>
           {/* <button
@@ -162,28 +176,53 @@ const TournamentPage = () => {
       </div>
 
       <div className={styles.list}>
-        <h2>Active Tournaments</h2>
-        {tournaments.length <= 0 ? (
-          <span> No tournaments.</span>
-        ) : (
-          tournaments.map((tournament) => (
-            <div key={tournament._id}>
-              <h2>{tournament.nombre}</h2>
-              <p>
-                Start Date:
-                {new Date(tournament.fecha_inicio).toLocaleDateString()}
-              </p>
-              <p>
-                End Date: {new Date(tournament.fecha_fin).toLocaleDateString()}
-              </p>
-              <p>Location: {tournament.ubicacion}</p>
-              <Image src={tournament.imagen} alt={tournament.nombre} />
-              <button onClick={() => deleteTournament(tournament._id)}>
-                Delete
-              </button>
-            </div>
-          ))
-        )}
+        <h2 className={styles.listTitle}>Active Tournaments</h2>
+        <div className={styles.cardsContainer}>
+          {tournaments !== null && tournaments.length <= 0 ? (
+            <span>There are no available tournaments.</span>
+          ) : (
+            tournaments !== null &&
+            tournaments.map((tournament) => (
+              <div key={tournament._id} className={styles.card}>
+                {tournament.image ? (
+                  <Image
+                    src={tournament.image}
+                    width={70}
+                    height={70}
+                    alt={tournament.name}
+                  />
+                ) : (
+                  <Image
+                    src={"/assets/image-demo.jpeg"}
+                    width={70}
+                    height={70}
+                    alt={"image"}
+                  />
+                )}
+
+                <div>
+                  <h2>{tournament.name}</h2>
+                  <div>
+                    <p>
+                      Start Date:
+                      {new Date(tournament.initial_date).toLocaleDateString()}
+                    </p>
+                    <p>
+                      End Date:{" "}
+                      {new Date(tournament.final_date).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+
+                <p>Location: {tournament.location}</p>
+
+                <button onClick={() => deleteTournament(tournament._id)}>
+                  Delete
+                </button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </section>
   )

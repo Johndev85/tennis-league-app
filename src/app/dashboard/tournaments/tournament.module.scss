@@ -35,5 +35,35 @@
     }
   }
   & .list {
+    width: 100%;
+    text-align: center;
+    & .listTitle {
+      margin: 20px 0 50px 0;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+    & .cardsContainer {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      & .card {
+        padding: 20px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+        border: 1px solid #2e2c2c;
+        & .cardInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+    }
   }
 }

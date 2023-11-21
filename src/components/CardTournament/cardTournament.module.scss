@@ -1,0 +1,12 @@
+.card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #2e2c2c;
+  & .cardInfo {
+    display: flex;
+    flex-direction: column;
+  }
+}
