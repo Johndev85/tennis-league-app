@@ -7,9 +7,12 @@ import axios from "axios"
 import Image from "next/image"
 
 import CardTournament from "@/components/CardTournament/CardTournament"
+import ModalTournament from "@/components/ModalTournament/ModalTournament"
 
 const TournamentPage = () => {
   const [tournaments, setTournaments] = useState([])
+  const [editingTournament, setEditingTournament] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [formState, setFormState] = useState({
     name: "",
     initial_date: "",
@@ -18,6 +21,14 @@ const TournamentPage = () => {
     image: "",
   })
 
+  // open modal update tournament
+  async function editTournament(id) {
+    const response = await axios.get(`/api/tournaments/${id}`)
+    setEditingTournament(await response.data.data)
+    setIsModalOpen(true)
+  }
+
+  //get all tournaments
   const fetchTournaments = async () => {
     const res = await axios.get("/api/tournaments")
     console.log("res", res)
@@ -28,6 +39,7 @@ const TournamentPage = () => {
     fetchTournaments()
   }, [])
 
+  //create tournament
   async function createTournament(tournament) {
     try {
       const formData = new FormData()
@@ -59,22 +71,20 @@ const TournamentPage = () => {
     }
   }
 
-  console.log("tournaments", tournaments)
-
-  async function updateTournament(id, tournament) {
+  //delete tournament
+  async function deleteTournament(id) {
     try {
-      const response = await axios.put(`/api/tournaments/${id}`, tournament)
-      return response.data
-    } catch (error) {
-      console.error(`Error updating tournament: ${error}`)
-      throw error
-    }
-  }
-
-  const deleteTournament = async (id) => {
-    try {
-      await axios.delete(`/api/tournaments/${id}`)
-      setTournaments(tournaments.filter((tournament) => tournament._id !== id))
+      const response = await fetch(`/api/tournaments/${id}`, {
+        method: "DELETE",
+      })
+      console.log("response front", response)
+      if (response.ok) {
+        setTournaments(
+          tournaments.filter((tournament) => tournament._id !== id)
+        )
+      } else {
+        console.error(`Error deleting tournament: ${response.statusText}`)
+      }
     } catch (error) {
       console.error(`Error deleting tournament: ${error}`)
     }
@@ -94,6 +104,7 @@ const TournamentPage = () => {
     }
   }
 
+  //handled form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -103,11 +114,8 @@ const TournamentPage = () => {
         return
       }
 
-      if (formState._id) {
-        await updateTournament(formState._id, formState)
-      } else {
-        await createTournament(formState)
-      }
+      await createTournament(formState)
+
       setFormState({
         name: "",
         initial_date: "",
@@ -165,13 +173,6 @@ const TournamentPage = () => {
             onChange={handleInputChange}
           />
           <button type="submit">Create Tournament</button>
-          {/* <button
-            type="submit"
-            onClick={updateTournament}
-            style={{ display: formState._id ? "block" : "none" }}
-          >
-            Update Tournament
-          </button> */}
         </form>
       </div>
 
@@ -208,7 +209,7 @@ const TournamentPage = () => {
                       {new Date(tournament.initial_date).toLocaleDateString()}
                     </p>
                     <p>
-                      End Date:{" "}
+                      End Date:
                       {new Date(tournament.final_date).toLocaleDateString()}
                     </p>
                   </div>
@@ -219,11 +220,20 @@ const TournamentPage = () => {
                 <button onClick={() => deleteTournament(tournament._id)}>
                   Delete
                 </button>
+                <button onClick={() => editTournament(tournament._id)}>
+                  Edit
+                </button>
               </div>
             ))
           )}
         </div>
       </div>
+      <ModalTournament
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        editingTournament={editingTournament}
+        fetchTournaments={fetchTournaments}
+      />
     </section>
   )
 }

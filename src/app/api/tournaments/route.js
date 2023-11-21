@@ -2,7 +2,8 @@ import { connectDB } from "@/utils/dbConnect"
 import Tournament from "@/models/Tournament"
 import { NextResponse } from "next/server"
 
-export async function GET() {
+//get all tournaments
+export const GET = async () => {
   await connectDB()
   try {
     const tournaments = await Tournament.find({})
@@ -12,7 +13,8 @@ export async function GET() {
   }
 }
 
-export async function POST(request) {
+//create new tournament
+export const POST = async (request) => {
   const { name, initial_date, final_date, location, image } =
     await request.json()
 
@@ -40,35 +42,5 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error creating tournament:", error)
     return NextResponse.json({ message: error.message }, { status: 500 })
-  }
-}
-
-export async function PUT(request) {
-  await connectDB()
-  try {
-    const tournament = await Tournament.findByIdAndUpdate(
-      request.query.id,
-      request.body,
-      { new: true }
-    )
-    if (!tournament) {
-      return NextResponse.json(
-        { message: "Tournament not found" },
-        { status: 404 }
-      )
-    }
-    return NextResponse.json({ tournament }, { status: 200 })
-  } catch (error) {
-    return new NextResponse(400).json({ message: error.message })
-  }
-}
-
-export async function DELETE(request) {
-  await connectDB()
-  try {
-    const tournament = await Tournament.findByIdAndDelete(request.query.id)
-    return NextResponse.json({ tournament }, { status: 200 })
-  } catch (error) {
-    return new NextResponse(400).json({ message: error.message })
   }
 }
