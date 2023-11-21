@@ -64,7 +64,11 @@ const Register = () => {
           <label htmlFor="password">Password</label>
           <input type="password" name="password" id="password" />
 
-          <input type="submit" value="Register" />
+          <input
+            className={styles.btnRegister}
+            type="submit"
+            value="Register"
+          />
           <p>
             Already have an account? <Link href="/login">Log in</Link>
           </p>

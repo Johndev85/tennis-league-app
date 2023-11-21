@@ -1,3 +1,5 @@
+@import "../../mixins.scss";
+
 .container {
   height: 100%;
   width: 100%;
@@ -32,6 +34,9 @@
         height: 35px;
         border-radius: 5px;
       }
+      & button {
+        @include btnStyles;
+      }
     }
   }
   & .list {
@@ -58,6 +63,14 @@
         align-items: center;
         gap: 20px;
         border: 1px solid #2e2c2c;
+        & .btnAdmin {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          & button {
+            @include btnStyles;
+          }
+        }
         & .cardInfo {
           display: flex;
           flex-direction: column;

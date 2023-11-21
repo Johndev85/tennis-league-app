@@ -5,11 +5,13 @@ import styles from "./tournament.module.scss"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import Image from "next/image"
+import { useSession } from "next-auth/react"
 
 import CardTournament from "@/components/CardTournament/CardTournament"
 import ModalTournament from "@/components/ModalTournament/ModalTournament"
 
 const TournamentPage = () => {
+  const { data: session } = useSession()
   const [tournaments, setTournaments] = useState([])
   const [editingTournament, setEditingTournament] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -129,52 +131,56 @@ const TournamentPage = () => {
   }
 
   return (
-    <section className={styles.container}>
-      <h1>create a tournament</h1>
-      <div className={styles.topForm}>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            value={formState.name}
-            onChange={handleInputChange}
-            placeholder="Tournament Name"
-            required
-          />
-          <div className={styles.groupDate}>
-            <input
-              type="date"
-              name="initial_date"
-              value={formState.initial_date}
-              onChange={handleInputChange}
-              required
-            />
-            <input
-              type="date"
-              name="final_date"
-              value={formState.final_date}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+    <div className={styles.container}>
+      {session && session.user.role === "admin" && (
+        <section>
+          <h1>create a tournament</h1>
+          <div className={styles.topForm}>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                value={formState.name}
+                onChange={handleInputChange}
+                placeholder="Tournament Name"
+                required
+              />
+              <div className={styles.groupDate}>
+                <input
+                  type="date"
+                  name="initial_date"
+                  value={formState.initial_date}
+                  onChange={handleInputChange}
+                  required
+                />
+                <input
+                  type="date"
+                  name="final_date"
+                  value={formState.final_date}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
 
-          <input
-            type="text"
-            name="location"
-            value={formState.location}
-            onChange={handleInputChange}
-            placeholder="Location"
-            required
-          />
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleInputChange}
-          />
-          <button type="submit">Create Tournament</button>
-        </form>
-      </div>
+              <input
+                type="text"
+                name="location"
+                value={formState.location}
+                onChange={handleInputChange}
+                placeholder="Location"
+                required
+              />
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleInputChange}
+              />
+              <button type="submit">Create Tournament</button>
+            </form>
+          </div>
+        </section>
+      )}
 
       <div className={styles.list}>
         <h2 className={styles.listTitle}>Active Tournaments</h2>
@@ -217,12 +223,16 @@ const TournamentPage = () => {
 
                 <p>Location: {tournament.location}</p>
 
-                <button onClick={() => deleteTournament(tournament._id)}>
-                  Delete
-                </button>
-                <button onClick={() => editTournament(tournament._id)}>
-                  Edit
-                </button>
+                {session && session.user.role === "admin" && (
+                  <div className={styles.btnAdmin}>
+                    <button onClick={() => deleteTournament(tournament._id)}>
+                      Delete
+                    </button>
+                    <button onClick={() => editTournament(tournament._id)}>
+                      Edit
+                    </button>
+                  </div>
+                )}
               </div>
             ))
           )}
@@ -234,7 +244,7 @@ const TournamentPage = () => {
         editingTournament={editingTournament}
         fetchTournaments={fetchTournaments}
       />
-    </section>
+    </div>
   )
 }
 

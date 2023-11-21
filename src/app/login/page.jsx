@@ -57,7 +57,7 @@ function Login() {
 
           <label>Password:</label>
           <input type="password" placeholder="Password" name="password" />
-          <input type="submit" value="Login" />
+          <input className={styles.btnLogin} type="submit" value="Login" />
 
           <div className={styles.middle}>
             <p>

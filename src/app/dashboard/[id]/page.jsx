@@ -12,8 +12,6 @@ import UsersListPage from "../users-list/page"
 function ProfilePage() {
   const { data: session, status } = useSession()
 
-  console.log(session, status)
-
   return (
     <>
       {session?.user?.role === "admin" ? (

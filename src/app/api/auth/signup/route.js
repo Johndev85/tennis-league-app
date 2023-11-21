@@ -4,7 +4,8 @@ import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import mongoose from "mongoose"
 
-export async function POST(request) {
+//create user
+export const POST = async (request) => {
   try {
     await connectDB()
 
@@ -36,9 +37,7 @@ export async function POST(request) {
       password: hashedPassword,
       role,
     })
-
     const savedUser = await user.save()
-
     return NextResponse.json(
       {
         username,

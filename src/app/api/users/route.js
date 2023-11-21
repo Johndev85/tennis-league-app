@@ -2,7 +2,8 @@ import { connectDB } from "@/utils/dbConnect"
 import User from "@/models/User"
 import { NextResponse } from "next/server"
 
-export async function GET(req) {
+//get all users
+export const GET = async (req) => {
   try {
     await connectDB()
 

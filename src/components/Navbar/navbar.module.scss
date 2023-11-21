@@ -1,3 +1,5 @@
+@import "../../../src/app/mixins.scss";
+
 .container {
   position: fixed;
   padding: 20px;
@@ -24,6 +26,9 @@
         color: #fff;
         font-weight: 500;
       }
+    }
+    & button {
+      @include btnStyles;
     }
   }
 }
