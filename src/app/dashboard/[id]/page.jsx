@@ -14,33 +14,31 @@ const ProfilePage = () => {
 
   return (
     <>
-      {session?.user?.role === "admin" ? (
-        <UsersListPage />
-      ) : (
-        <section className={styles.board}>
-          <h1 className="">no es admin </h1>
+      <section className={styles.board}>
+        <h1>
+          Welcome to perfil <span> {` ${session.user?.username}!`} </span>{" "}
+        </h1>
 
-          <pre className="">
-            {JSON.stringify(
-              {
-                session,
-                status,
-              },
-              null,
-              2
-            )}
-          </pre>
+        <pre className="">
+          {JSON.stringify(
+            {
+              session,
+              status,
+            },
+            null,
+            2
+          )}
+        </pre>
 
-          <button
-            className=""
-            onClick={() => {
-              signOut()
-            }}
-          >
-            Signout
-          </button>
-        </section>
-      )}
+        <button
+          className=""
+          onClick={() => {
+            signOut()
+          }}
+        >
+          Signout
+        </button>
+      </section>
     </>
   )
 }

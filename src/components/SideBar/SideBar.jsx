@@ -12,6 +12,12 @@ const SideBar = () => {
   return (
     <section className={styles.sidebar}>
       <ul>
+        <li>
+          <Link href={`/dashboard/${session && session.user.username}`}>
+            Profile{" "}
+          </Link>
+        </li>
+
         {session && session.user.role === "admin" && (
           <li>
             <Link href="/dashboard/users-list"> users</Link>

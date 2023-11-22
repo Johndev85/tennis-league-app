@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
+import toast, { Toaster } from "react-hot-toast"
 
 import CardTournament from "@/components/CardTournament/CardTournament"
 import ModalTournament from "@/components/ModalTournament/ModalTournament"
@@ -13,6 +14,7 @@ import ModalTournament from "@/components/ModalTournament/ModalTournament"
 const TournamentPage = () => {
   const { data: session } = useSession()
   const [tournaments, setTournaments] = useState([])
+  const [inscriptions, setInscriptions] = useState([])
   const [editingTournament, setEditingTournament] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [formState, setFormState] = useState({
@@ -33,8 +35,14 @@ const TournamentPage = () => {
   //get all tournaments
   const fetchTournaments = async () => {
     const res = await axios.get("/api/tournaments")
-    console.log("res", res)
     setTournaments(res.data.tournaments)
+  }
+
+  //get all inscriptions by tournament
+  const fetchInscriptions = async (tournament_id) => {
+    const res = await axios.get(`/api/tournaments/${tournament_id}/inscribe`)
+    setInscriptions(res.data)
+    console.log("inscriptions", inscriptions)
   }
 
   useEffect(() => {
@@ -46,7 +54,6 @@ const TournamentPage = () => {
     try {
       const formData = new FormData()
       formData.append("image", tournament.image)
-
       const response = await fetch("/api/tournaments", {
         method: "POST",
         headers: {
@@ -61,6 +68,7 @@ const TournamentPage = () => {
         }),
       })
 
+      //reload list of tournaments
       fetchTournaments()
 
       if (!response.ok) {
@@ -79,7 +87,6 @@ const TournamentPage = () => {
       const response = await fetch(`/api/tournaments/${id}`, {
         method: "DELETE",
       })
-      console.log("response front", response)
       if (response.ok) {
         setTournaments(
           tournaments.filter((tournament) => tournament._id !== id)
@@ -92,6 +99,44 @@ const TournamentPage = () => {
     }
   }
 
+  // inscribe tournament
+  async function inscribeTournament(id) {
+    try {
+      const response = await fetch(`/api/tournaments/${id}/inscribe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: session.user._id,
+          tournament_id: id,
+        }),
+      })
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          const data = await response.json()
+          toast.error(`${data.message}`, {
+            duration: 2000,
+          })
+        }
+        fetchInscriptions(id)
+        throw new Error(
+          `Error registering for tournament: ${response.statusText}`
+        )
+      } else {
+        toast.success("Inscribe Successfully", {
+          duration: 2000,
+        })
+      }
+      fetchInscriptions(id)
+      return await response.json()
+    } catch (error) {
+      console.error(`Error registering for tournament: ${error}`)
+    }
+  }
+
+  // handle input change
   const handleInputChange = (event) => {
     if (event.target.name === "image") {
       setFormState({
@@ -233,6 +278,14 @@ const TournamentPage = () => {
                     </button>
                   </div>
                 )}
+                <div className={styles.btnAdmin}>
+                  <button
+                    className={styles.btnInscribe}
+                    onClick={() => inscribeTournament(tournament._id)}
+                  >
+                    Inscribe
+                  </button>
+                </div>
               </div>
             ))
           )}
@@ -244,6 +297,7 @@ const TournamentPage = () => {
         editingTournament={editingTournament}
         fetchTournaments={fetchTournaments}
       />
+      <Toaster />
     </div>
   )
 }

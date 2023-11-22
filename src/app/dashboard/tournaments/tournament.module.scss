@@ -70,6 +70,10 @@
           & button {
             @include btnStyles;
           }
+          & .btnInscribe {
+            @include btnStyles;
+            background-color: green;
+          }
         }
         & .cardInfo {
           display: flex;
