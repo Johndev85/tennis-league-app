@@ -4,7 +4,7 @@
 import styles from "./modal.module.scss"
 
 import { useState } from "react"
-import ReactDOM from "react-dom"
+import toast, { Toaster } from "react-hot-toast"
 
 const ModalTournament = ({
   isModalOpen,
@@ -29,8 +29,17 @@ const ModalTournament = ({
         body: JSON.stringify(updateData),
       })
       if (!response.ok) {
+        if (response.status === 400) {
+          const data = await response.json()
+          toast.error(`${data.message}`, {
+            duration: 2000,
+          })
+        }
         throw new Error(`Error updating tournament: ${response.statusText}`)
+      } else {
+        toast.success("Successfully updated!")
       }
+
       fetchTournaments()
       setIsModalOpen(false)
       return await response.json()

@@ -25,18 +25,20 @@ const UsersListPage = () => {
 
   //delete user
   const deleteUser = async (id) => {
-    try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "DELETE",
-      })
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        const response = await fetch(`/api/users/${id}`, {
+          method: "DELETE",
+        })
 
-      if (response.ok) {
-        setUsers(users.filter((user) => user._id !== id))
-      } else {
-        console.error(`Error deleting user: ${response.statusText}`)
+        if (response.ok) {
+          setUsers(users.filter((user) => user._id !== id))
+        } else {
+          console.error(`Error deleting user: ${response.statusText}`)
+        }
+      } catch (error) {
+        console.error(`Error deleting user: ${error}`)
       }
-    } catch (error) {
-      console.error(`Error deleting user: ${error}`)
     }
   }
 

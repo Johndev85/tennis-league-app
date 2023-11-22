@@ -83,19 +83,26 @@ const TournamentPage = () => {
 
   //delete tournament
   async function deleteTournament(id) {
-    try {
-      const response = await fetch(`/api/tournaments/${id}`, {
-        method: "DELETE",
-      })
-      if (response.ok) {
-        setTournaments(
-          tournaments.filter((tournament) => tournament._id !== id)
-        )
-      } else {
-        console.error(`Error deleting tournament: ${response.statusText}`)
+    if (window.confirm("Are you sure you want to delete this tournament?")) {
+      try {
+        const response = await fetch(`/api/tournaments/${id}`, {
+          method: "DELETE",
+        })
+        if (response.ok) {
+          setTournaments(
+            tournaments.filter((tournament) => tournament._id !== id)
+          )
+          toast.success("Successfully deleted!")
+        } else {
+          const data = await response.json()
+          toast.error(`${data.message}`, {
+            duration: 2000,
+          })
+          console.error(`Error deleting tournament: ${response.statusText}`)
+        }
+      } catch (error) {
+        console.error(`Error deleting tournament: ${error}`)
       }
-    } catch (error) {
-      console.error(`Error deleting tournament: ${error}`)
     }
   }
 

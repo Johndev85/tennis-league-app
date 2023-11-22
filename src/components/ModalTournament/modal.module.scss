@@ -1,3 +1,5 @@
+@import "../../../src/app/mixins.scss";
+
 .modal {
   position: fixed;
   top: 0;
@@ -10,8 +12,8 @@
   justify-content: center;
   z-index: 1000;
   & .modalContent {
+    padding: 20px 40px 40px;
     background-color: white;
-    padding: 20px;
     border-radius: 10px;
     max-width: 500px;
     width: 100%;
@@ -56,6 +58,9 @@
           margin: 5px;
           height: 35px;
           border-radius: 5px;
+        }
+        & button {
+          @include btnStyles;
         }
       }
     }
