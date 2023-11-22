@@ -69,9 +69,9 @@ const UsersListPage = () => {
 
   return (
     <section className={styles.container}>
-      <h1>dashboard admin</h1>
+      <h1>admin dashboard </h1>
 
-      <h2>Users List</h2>
+      <h2>registered users</h2>
 
       <ul className={styles.table}>
         <div className={styles.titles}>

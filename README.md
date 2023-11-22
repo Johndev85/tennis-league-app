@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Challenge Project MERN Full Stack App with Next.js 14.0, React 18, MongoDB, Next.js API routes, Sass
 
-## Getting Started
+![Alt text](./public/assets/screen-1.png)
+![Alt text](./public/assets/screen-2.png)
 
-First, run the development server:
+An application with authentication system that manages two types of roles, also allows the CRUD management of users and tournament lists
+
+Check out the site here: [https://lively-field-0447c1a0f.4.azurestaticapps.net/](https://lively-field-0447c1a0f.4.azurestaticapps.net/)
+
+---
+
+## Features
+
+In this project, it demonstrates the ability to:
+
+- The Authentication of Users.
+- Alternative Authentication Google OAuth.
+- Admictionation is safe of credentials.
+- CRUD Operation on users and tournaments DB.
+- List of tournaments.
+- Registration of Tournaments.
+
+---
+
+## Future Features
+
+- Upload tournament image.
+- Add payment gateway.
+
+---
+
+## Build Setup
 
 ```bash
+# clone repository
+git clone https://github.com/Johndev85/tennis-league-app.git
+
+# go project file
+ cd tennis-league-app
+
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:5173/
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# build for production with minification
+npm run build
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Javascript
+- React with Nextjs - Frontend
+- Nextjs API Routes - Backend
+- Sass - CSS
+- MongoDB Atlas - DB Cloud
+- Vercel - Deploy
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Contribute
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you want to contribute with this project, just make a Pull Request explaining the improving ✨.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The MIT License (MIT)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
