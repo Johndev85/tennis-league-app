@@ -61,7 +61,9 @@ const Register = () => {
           <input type="text" name="username" id="username" />
           <label htmlFor="email">Email</label>
           <input type="email" name="email" id="email" />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" required>
+            Password
+          </label>
           <input type="password" name="password" id="password" />
 
           <input

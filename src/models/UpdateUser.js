@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose"
 
-const userSchema = new Schema(
+const updateUserSchema = new Schema(
   {
     username: {
       type: String,
@@ -17,11 +17,6 @@ const userSchema = new Schema(
         "Email is invalid",
       ],
     },
-    password: {
-      type: String,
-      // required: [true, "Password is required"],
-      select: false,
-    },
     role: {
       type: String,
       required: true,
@@ -32,4 +27,4 @@ const userSchema = new Schema(
   }
 )
 
-export default models.User || model("User", userSchema)
+export default models.UpdateUser || model("UpdateUser", updateUserSchema)

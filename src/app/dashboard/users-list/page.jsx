@@ -5,12 +5,40 @@ import styles from "./users.module.scss"
 
 //libraries
 import { useEffect, useState } from "react"
-import Link from "next/link"
 import axios from "axios"
+import { Toaster } from "react-hot-toast"
+
+//components
+import ModalUsers from "@/components/ModalUsers/ModalUsers"
 
 const UsersListPage = () => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingUser, setEditingUser] = useState(null)
+
+  //update user
+  const userUpdate = (userId) => {
+    setEditingUser(users.filter((user) => user._id === userId))
+    setIsModalOpen(true)
+  }
+
+  //delete user
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`/api/users/${id}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        setUsers(users.filter((user) => user._id !== id))
+      } else {
+        console.error(`Error deleting user: ${response.statusText}`)
+      }
+    } catch (error) {
+      console.error(`Error deleting user: ${error}`)
+    }
+  }
 
   useEffect(() => {
     axios
@@ -52,10 +80,25 @@ const UsersListPage = () => {
               <span className={styles.cell}>{user.username}</span>
               <span className={styles.cell}>{user.email}</span>
               <span className={styles.cell}>{user.role}</span>
+              <div className={styles.btnForm}>
+                <button onClick={() => userUpdate(user._id)}>Edit</button>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => deleteUser(user._id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </li>
         ))}
       </ul>
+      <ModalUsers
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        userData={editingUser}
+      />
+      <Toaster />
     </section>
   )
 }

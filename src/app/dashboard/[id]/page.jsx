@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react"
 //pages
 import UsersListPage from "../users-list/page"
 
-function ProfilePage() {
+const ProfilePage = () => {
   const { data: session, status } = useSession()
 
   return (
