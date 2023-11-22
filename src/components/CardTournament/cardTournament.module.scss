@@ -52,3 +52,18 @@
     }
   }
 }
+
+@media (max-width: 992px) {
+  .cardsContainer {
+    width: 80%;
+  }
+}
+
+@media (max-width: 470px) {
+  .cardsContainer {
+    width: 100%;
+    & .card {
+      flex-direction: column;
+    }
+  }
+}

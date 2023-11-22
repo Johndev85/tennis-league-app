@@ -1,11 +1,12 @@
 "use client"
 
-import { FormEvent, useState } from "react"
+import { useState } from "react"
 import axios, { AxiosError } from "axios"
 import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 import styles from "./register.module.scss"
 
@@ -54,6 +55,14 @@ const Register = () => {
   return (
     status !== "authenticated" && (
       <section className={styles.container}>
+        <div>
+          <Image
+            src="/assets/liga-icon.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+        </div>
         <h1>Create your account</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           {error && <div className={styles.error}>{error}</div>}

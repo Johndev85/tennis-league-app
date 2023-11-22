@@ -14,7 +14,7 @@ const SideBar = () => {
       <ul>
         <li>
           <Link href={`/dashboard/${session && session.user.username}`}>
-            Profile{" "}
+            Profile
           </Link>
         </li>
 

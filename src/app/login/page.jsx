@@ -48,6 +48,14 @@ function Login() {
   return (
     status !== "authenticated" && (
       <div className={styles.container}>
+        <div>
+          <Image
+            src="/assets/liga-icon.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+        </div>
         <h1>Welcome back</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           {error && <div className={styles.error}>{error}</div>}

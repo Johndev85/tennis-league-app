@@ -11,9 +11,17 @@ function Navbar() {
 
   return (
     <nav className={styles.container}>
-      <Link href="/">
-        <h1>Tennis League</h1>
-      </Link>
+      <div className={styles.logo}>
+        <Link href="/">
+          <Image
+            src="/assets/liga-icon.png"
+            alt="logo"
+            width={80}
+            height={80}
+          />
+          <span>Tennis League</span>
+        </Link>
+      </div>
 
       {session?.user ? (
         <div className={styles.navbar}>

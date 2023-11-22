@@ -103,3 +103,15 @@
     }
   }
 }
+
+@media (max-width: 470px) {
+  .container {
+    & .list {
+      & .cardsContainer {
+        & .card {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
