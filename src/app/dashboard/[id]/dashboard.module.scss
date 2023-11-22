@@ -1,3 +1,39 @@
 .board {
+  width: 100%;
   padding: 30px;
+  & h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  & h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  & .listcontent {
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+    & .title {
+      width: 100%;
+      & h3 {
+        padding: 30px 0;
+        text-transform: capitalize;
+        text-align: center;
+      }
+    }
+    & .cardsContent {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+  }
 }

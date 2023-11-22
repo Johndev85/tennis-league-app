@@ -8,7 +8,7 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import toast, { Toaster } from "react-hot-toast"
 
-import CardTournament from "@/components/CardTournament/CardTournament"
+import Loader from "@/components/Loader/Loader"
 import ModalTournament from "@/components/ModalTournament/ModalTournament"
 
 const TournamentPage = () => {
@@ -108,6 +108,10 @@ const TournamentPage = () => {
 
   // inscribe tournament
   async function inscribeTournament(id) {
+    const tournament = tournaments.filter((tournament) => tournament._id === id)
+
+    console.log("tournament", tournament)
+
     try {
       const response = await fetch(`/api/tournaments/${id}/inscribe`, {
         method: "POST",
@@ -117,6 +121,11 @@ const TournamentPage = () => {
         body: JSON.stringify({
           user_id: session.user._id,
           tournament_id: id,
+          tournament_name: tournament[0].name,
+          initial_date: tournament[0].initial_date,
+          final_date: tournament[0].final_date,
+          location: tournament[0].location,
+          image: tournament[0].image,
         }),
       })
 
@@ -237,7 +246,9 @@ const TournamentPage = () => {
       <div className={styles.list}>
         <h2 className={styles.listTitle}>Active Tournaments</h2>
         <div className={styles.cardsContainer}>
-          {tournaments !== null && tournaments.length <= 0 ? (
+          {tournaments === null ? (
+            <Loader />
+          ) : tournaments !== null && tournaments.length <= 0 ? (
             <span>There are no available tournaments.</span>
           ) : (
             tournaments !== null &&

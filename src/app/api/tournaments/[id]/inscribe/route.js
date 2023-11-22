@@ -15,7 +15,15 @@ export const GET = async () => {
 
 //create inscription
 export const POST = async (request, { params }) => {
-  const { user_id, tournament_id } = await request.json()
+  const {
+    user_id,
+    tournament_id,
+    tournament_name,
+    initial_date,
+    final_date,
+    location,
+    image,
+  } = await request.json()
 
   if (!user_id || !tournament_id) {
     console.error("Missing required fields")
@@ -31,6 +39,11 @@ export const POST = async (request, { params }) => {
     const existingInscription = await Registration.findOne({
       user_id,
       tournament_id,
+      tournament_name,
+      initial_date,
+      final_date,
+      location,
+      image,
     })
     if (existingInscription) {
       console.error("Inscription already exists")
@@ -44,6 +57,11 @@ export const POST = async (request, { params }) => {
     const inscription = new Registration({
       user_id,
       tournament_id,
+      tournament_name,
+      initial_date,
+      final_date,
+      location,
+      image,
     })
     const savedInscription = await inscription.save()
     console.log("Inscription created successfully:", savedInscription)

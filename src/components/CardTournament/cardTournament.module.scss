@@ -1,12 +1,30 @@
-.card {
-  width: 100%;
-  height: auto;
+@import "../../app/mixins.scss";
+
+.cardsContainer {
+  min-width: 400px;
+  width: 50%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #2e2c2c;
-  & .cardInfo {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+
+  & .card {
+    padding: 20px;
+    width: 100%;
+    height: auto;
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #2e2c2c;
+    & p {
+      & span {
+        font-weight: bold;
+      }
+    }
+    & .content {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
