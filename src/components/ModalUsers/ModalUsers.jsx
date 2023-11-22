@@ -7,7 +7,7 @@ import styles from "./modalUser.module.scss"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
-const ModalUsers = ({ isModalOpen, setIsModalOpen, userData }) => {
+const ModalUsers = ({ isModalOpen, setIsModalOpen, userData, refreshList }) => {
   const [error, setError] = useState()
   const [formStateUser, setFormStateUser] = useState({
     username: "",
@@ -35,6 +35,7 @@ const ModalUsers = ({ isModalOpen, setIsModalOpen, userData }) => {
 
       setIsModalOpen(false)
       toast.success("Successfully updated!")
+      refreshList()
       return await response.json()
     } catch (error) {
       console.error(`Error updating tournament: ${error}`)
@@ -76,7 +77,7 @@ const ModalUsers = ({ isModalOpen, setIsModalOpen, userData }) => {
           <button onClick={() => setIsModalOpen(false)}>X</button>
         </div>
         <div className={styles.modalTitle}>
-          <h2>Edit User</h2>
+          <h2>Editing {`${userData[0].username}`}</h2>
         </div>
         <form onSubmit={handleSubmit} className={styles.form}>
           {error && <div className={styles.error}>{error}</div>}
@@ -86,6 +87,7 @@ const ModalUsers = ({ isModalOpen, setIsModalOpen, userData }) => {
             name="username"
             id="username"
             onChange={handleInputChange}
+            required
           />
           <label htmlFor="email">Email</label>
           <input
@@ -93,9 +95,10 @@ const ModalUsers = ({ isModalOpen, setIsModalOpen, userData }) => {
             name="email"
             id="email"
             onChange={handleInputChange}
+            required
           />
           <label htmlFor="role">Rol</label>
-          <select name="role" onChange={handleInputChange}>
+          <select name="role" onChange={handleInputChange} required>
             <option value="" defaultValue>
               Select a role
             </option>

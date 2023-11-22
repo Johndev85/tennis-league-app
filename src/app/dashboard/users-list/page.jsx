@@ -6,10 +6,11 @@ import styles from "./users.module.scss"
 //libraries
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { Toaster } from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 
 //components
 import ModalUsers from "@/components/ModalUsers/ModalUsers"
+import Loader from "@/components/Loader/Loader"
 
 const UsersListPage = () => {
   const [users, setUsers] = useState([])
@@ -33,8 +34,14 @@ const UsersListPage = () => {
 
         if (response.ok) {
           setUsers(users.filter((user) => user._id !== id))
+          toast.success("User deleted successfully")
         } else {
+          const data = await response.json()
+          toast.error(`${data.message}`, {
+            duration: 2000,
+          })
           console.error(`Error deleting user: ${response.statusText}`)
+          toast.error("Error deleting user")
         }
       } catch (error) {
         console.error(`Error deleting user: ${error}`)
@@ -42,20 +49,23 @@ const UsersListPage = () => {
     }
   }
 
+  //get list
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/users")
+      setUsers(response.data)
+      setLoading(false)
+    } catch (error) {
+      console.error("Error:", error)
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    axios
-      .get("/api/users")
-      .then((response) => {
-        setUsers(response.data)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-        setLoading(false)
-      })
+    fetchData()
   }, [])
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loader />
 
   return (
     <section className={styles.container}>
@@ -99,6 +109,7 @@ const UsersListPage = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         userData={editingUser}
+        refreshList={fetchData}
       />
       <Toaster />
     </section>

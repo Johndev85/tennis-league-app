@@ -58,22 +58,35 @@ const Register = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           {error && <div className={styles.error}>{error}</div>}
           <label htmlFor="username">Username</label>
-          <input type="text" name="username" id="username" />
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="New username"
+          />
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" placeholder="New email" />
           <label htmlFor="password" required>
             Password
           </label>
-          <input type="password" name="password" id="password" />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="New password"
+          />
 
           <input
             className={styles.btnRegister}
             type="submit"
             value="Register"
           />
-          <p>
-            Already have an account? <Link href="/login">Log in</Link>
-          </p>
+
+          <div className={styles.middle}>
+            <p>
+              Already have an account? <Link href="/login">Log in</Link>
+            </p>
+          </div>
         </form>
       </section>
     )

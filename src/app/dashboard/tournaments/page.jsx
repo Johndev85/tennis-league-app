@@ -7,12 +7,14 @@ import axios from "axios"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import toast, { Toaster } from "react-hot-toast"
+import confetti from "canvas-confetti"
 
 import Loader from "@/components/Loader/Loader"
 import ModalTournament from "@/components/ModalTournament/ModalTournament"
 
 const TournamentPage = () => {
   const { data: session } = useSession()
+  const [isLoading, setIsLoading] = useState(false)
   const [tournaments, setTournaments] = useState([])
   const [inscriptions, setInscriptions] = useState([])
   const [editingTournament, setEditingTournament] = useState(null)
@@ -34,15 +36,16 @@ const TournamentPage = () => {
 
   //get all tournaments
   const fetchTournaments = async () => {
+    setIsLoading(true)
     const res = await axios.get("/api/tournaments")
     setTournaments(res.data.tournaments)
+    setIsLoading(false)
   }
 
   //get all inscriptions by tournament
   const fetchInscriptions = async (tournament_id) => {
     const res = await axios.get(`/api/tournaments/${tournament_id}/inscribe`)
     setInscriptions(res.data)
-    console.log("inscriptions", inscriptions)
   }
 
   useEffect(() => {
@@ -64,7 +67,7 @@ const TournamentPage = () => {
           initial_date: tournament.initial_date,
           final_date: tournament.final_date,
           location: tournament.location,
-          image: formData.image,
+          image: tournament.image,
         }),
       })
 
@@ -110,8 +113,6 @@ const TournamentPage = () => {
   async function inscribeTournament(id) {
     const tournament = tournaments.filter((tournament) => tournament._id === id)
 
-    console.log("tournament", tournament)
-
     try {
       const response = await fetch(`/api/tournaments/${id}/inscribe`, {
         method: "POST",
@@ -119,7 +120,7 @@ const TournamentPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: session.user._id,
+          user_id: session.user._id ? session.user._id : session.user.id,
           tournament_id: id,
           tournament_name: tournament[0].name,
           initial_date: tournament[0].initial_date,
@@ -144,6 +145,11 @@ const TournamentPage = () => {
         toast.success("Inscribe Successfully", {
           duration: 2000,
         })
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        })
       }
       fetchInscriptions(id)
       return await response.json()
@@ -152,31 +158,41 @@ const TournamentPage = () => {
     }
   }
 
-  // handle input change
-  const handleInputChange = (event) => {
-    if (event.target.name === "image") {
-      setFormState({
-        ...formState,
-        image: event.target.files[0],
-      })
-    } else {
+  // handle image upload
+  const handleImageUpload = (e) => {
+    e.preventDefault()
+    const file = e.target.files[0]
+    const fileType = file["type"]
+    const validImageTypes = ["image/gif", "image/jpeg", "image/png"]
+    if (validImageTypes.includes(fileType)) {
       setFormState((prevState) => ({
         ...prevState,
-        [event.target.name]: event.target.value,
+        image: file,
       }))
+    } else {
+      setError("Invalid file type. Please upload an image file.")
     }
+  }
+
+  // handle input change
+  const handleInputChange = (event) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }))
   }
 
   //handled form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      const { name, initial_date, final_date, location } = formState
-      if (!name || !initial_date || !final_date || !location) {
-        console.error("All fields are required")
-        return
-      }
 
+    const { name, initial_date, final_date, location } = formState
+    if (!name || !initial_date || !final_date || !location) {
+      console.error("All fields are required")
+      return
+    }
+
+    try {
       await createTournament(formState)
 
       setFormState({
@@ -207,20 +223,27 @@ const TournamentPage = () => {
                 required
               />
               <div className={styles.groupDate}>
-                <input
-                  type="date"
-                  name="initial_date"
-                  value={formState.initial_date}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="date"
-                  name="final_date"
-                  value={formState.final_date}
-                  onChange={handleInputChange}
-                  required
-                />
+                <div className={styles.labelDate}>
+                  <label>Starting date:</label>
+                  <input
+                    type="date"
+                    name="initial_date"
+                    value={formState.initial_date}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className={styles.labelDate}>
+                  <label>Ends date:</label>
+                  <input
+                    type="date"
+                    name="final_date"
+                    value={formState.final_date}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
               </div>
 
               <input
@@ -231,12 +254,16 @@ const TournamentPage = () => {
                 placeholder="Location"
                 required
               />
+
+              {/* <label>Upload an image:</label>
               <input
                 type="file"
                 name="image"
                 accept="image/*"
-                onChange={handleInputChange}
-              />
+                onChange={handleImageUpload}
+                className={styles.fileInput}
+              /> */}
+
               <button type="submit">Create Tournament</button>
             </form>
           </div>
@@ -246,7 +273,7 @@ const TournamentPage = () => {
       <div className={styles.list}>
         <h2 className={styles.listTitle}>Active Tournaments</h2>
         <div className={styles.cardsContainer}>
-          {tournaments === null ? (
+          {isLoading ? (
             <Loader />
           ) : tournaments !== null && tournaments.length <= 0 ? (
             <span>There are no available tournaments.</span>

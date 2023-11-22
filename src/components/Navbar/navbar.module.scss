@@ -4,18 +4,26 @@
   padding: 20px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 100%;
-  background: #7c7c7c;
+  background: var(--primary-color);
   & a {
     text-decoration: none;
     color: #fff;
   }
   & .navbar {
+    width: auto;
     padding: 10px 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 20px;
+    & p {
+      width: 100%;
+      font-weight: bold;
+      text-transform: capitalize;
+      color: #fff;
+    }
     & img {
       border-radius: 50%;
     }

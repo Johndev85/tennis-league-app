@@ -16,7 +16,8 @@
     justify-content: space-around;
     align-items: center;
     gap: 20px;
-    border: 1px solid #2e2c2c;
+    box-shadow: 0 0 10px rgba(87, 87, 87, 0.2);
+    border-radius: 8px;
     & p {
       & span {
         font-weight: bold;
@@ -25,6 +26,29 @@
     & .content {
       display: flex;
       flex-direction: column;
+      & p {
+        margin: 5px 0;
+        & span {
+          margin-right: 5px;
+        }
+      }
+    }
+    & .btnAdmin {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      & button {
+        @include btnStyles;
+      }
+      & .btnInscribe {
+        @include btnStyles;
+        background-color: green;
+      }
+      & .deleteBtn {
+        background-color: #e93b3b;
+        color: #fff;
+        margin-right: 10px;
+      }
     }
   }
 }

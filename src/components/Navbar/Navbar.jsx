@@ -17,14 +17,9 @@ function Navbar() {
 
       {session?.user ? (
         <div className={styles.navbar}>
-          <Link
-            href={`/dashboard/${
-              session.user.username ? session.user.username : session.user.email
-            }`}
-          >
-            Dashboard
-          </Link>
-          <p>{session.user.name}</p>
+          <p>
+            {session.user.username ? session.user.username : session.user.name}
+          </p>
           {session.user.image && (
             <Image
               src={session.user.image}
@@ -45,9 +40,7 @@ function Navbar() {
           </button>
         </div>
       ) : (
-        <button onClick={() => signIn()} className="">
-          Sign In
-        </button>
+        <button onClick={() => signIn()}>Sign In</button>
       )}
     </nav>
   )

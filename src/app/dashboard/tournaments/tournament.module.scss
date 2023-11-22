@@ -17,16 +17,12 @@
   }
   & .topForm {
     & form {
-      width: 300px;
+      width: 350px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      & .groupDate {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-      }
+      gap: 15px;
       & input {
         padding: 5px;
         width: 100%;
@@ -34,12 +30,33 @@
         height: 35px;
         border-radius: 5px;
       }
+      & .groupDate {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        & .labelDate {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          & label {
+            text-align: center;
+            font-weight: bold;
+          }
+        }
+      }
+      & .fileInput {
+        width: auto;
+      }
+
       & button {
         @include btnStyles;
       }
     }
   }
   & .list {
+    max-width: 1200px;
     width: 100%;
     text-align: center;
     & .listTitle {
@@ -54,7 +71,7 @@
       flex-wrap: wrap;
       justify-content: space-around;
       gap: 20px;
-
+      overflow-y: auto;
       & .card {
         padding: 20px;
         width: 100%;
@@ -63,7 +80,8 @@
         justify-content: space-around;
         align-items: center;
         gap: 20px;
-        border: 1px solid #2e2c2c;
+        box-shadow: 0 0 10px rgba(87, 87, 87, 0.2);
+        border-radius: 8px;
         & .btnAdmin {
           display: flex;
           flex-direction: column;

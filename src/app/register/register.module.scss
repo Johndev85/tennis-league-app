@@ -17,15 +17,7 @@
     margin: 20px 0;
   }
   & .form {
-    width: 330px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #555353;
-    & input {
-      height: 30px;
-    }
+    @include formStyles;
     & .btnRegister {
       @include btnStyles;
     }

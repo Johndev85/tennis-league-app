@@ -62,3 +62,46 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin formStyles {
+  width: 330px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  & input,
+  select {
+    padding: 6px;
+    height: 40px;
+    border: 1px solid #dddfe2;
+    &:focus {
+      outline: none;
+      border: 1px solid var(--primary-color);
+    }
+  }
+  & .middle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & p {
+      & a {
+        margin: 0 5px;
+        color: var(--primary-color);
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    & span {
+      text-transform: uppercase;
+    }
+    & small {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+  }
+}

@@ -1,5 +1,10 @@
 @import "./mixins.scss";
 
+:root {
+  --primary-color: #10a37f;
+  --secondary-color: #2d333a;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +16,6 @@ html {
   height: 100%;
   width: 100%;
   background: #fff;
-  color: #000;
+  color: #2d333a;
   scroll-behavior: smooth;
 }

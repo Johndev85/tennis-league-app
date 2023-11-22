@@ -53,7 +53,12 @@ function Login() {
           {error && <div className={styles.error}>{error}</div>}
 
           <label>Email:</label>
-          <input type="email" placeholder="Email" className="" name="email" />
+          <input
+            type="email"
+            placeholder="Email address"
+            className=""
+            name="email"
+          />
 
           <label>Password:</label>
           <input type="password" placeholder="Password" name="password" />
@@ -66,7 +71,7 @@ function Login() {
           </div>
 
           <div className={styles.middle}>
-            <span>or</span>
+            <small>or</small>
           </div>
 
           <button className={styles.btnGoogle} onClick={handleGoogleLogin}>
