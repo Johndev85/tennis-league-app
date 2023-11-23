@@ -69,6 +69,7 @@
       text-transform: capitalize;
     }
     & .cardsContainer {
+      padding: 20px;
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -78,7 +79,7 @@
       & .card {
         max-width: 1200px;
         padding: 20px;
-        width: 100%;
+        width: 80%;
         height: auto;
         display: flex;
         justify-content: space-around;
@@ -90,12 +91,12 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          & span {
+            font-weight: bold;
+            margin-right: 10px;
+          }
           & p {
             margin: 4px 0;
-            & span {
-              font-weight: bold;
-              margin-right: 10px;
-            }
           }
         }
         & .btnAdmin {
@@ -120,11 +121,32 @@
   }
 }
 
+@media (max-width: 992px) {
+  .container {
+    & .list {
+      & .cardsContainer {
+        & .card {
+          width: 90%;
+          & .textContent {
+            & span {
+              font-size: 14px;
+            }
+            & p {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 470px) {
   .container {
     & .list {
       & .cardsContainer {
         & .card {
+          width: 100%;
           flex-direction: column;
         }
       }

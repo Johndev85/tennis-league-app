@@ -311,9 +311,8 @@ const TournamentPage = () => {
                 </div>
 
                 <div className={styles.textContent}>
-                  <p>
-                    <span>Location: </span> {tournament.location}
-                  </p>
+                  <span>Location: </span>
+                  <p>{tournament.location}</p>
                 </div>
 
                 {session && session.user.role === "admin" && (
