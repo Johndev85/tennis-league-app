@@ -24,11 +24,14 @@
       justify-content: center;
       gap: 15px;
       & input {
-        padding: 5px;
         width: 100%;
-        margin: 5px;
-        height: 35px;
-        border-radius: 5px;
+        padding: 6px;
+        height: 40px;
+        border: 1px solid #dddfe2;
+        &:focus {
+          outline: none;
+          border: 1px solid var(--primary-color);
+        }
       }
       & .groupDate {
         width: 100%;
@@ -73,6 +76,7 @@
       gap: 20px;
       overflow-y: auto;
       & .card {
+        max-width: 1200px;
         padding: 20px;
         width: 100%;
         height: auto;
@@ -82,6 +86,18 @@
         gap: 20px;
         box-shadow: 0 0 10px rgba(87, 87, 87, 0.2);
         border-radius: 8px;
+        & .textContent {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          & p {
+            margin: 4px 0;
+            & span {
+              font-weight: bold;
+              margin-right: 10px;
+            }
+          }
+        }
         & .btnAdmin {
           display: flex;
           flex-direction: column;

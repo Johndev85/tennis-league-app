@@ -5,7 +5,7 @@
 
 An application with authentication system that manages two types of roles, also allows the CRUD management of users and tournament lists
 
-Check out the site here: [https://lively-field-0447c1a0f.4.azurestaticapps.net/](https://lively-field-0447c1a0f.4.azurestaticapps.net/)
+Check out the site here: [https://tennis-league-app.vercel.app](https://tennis-league-app.vercel.app)
 
 ---
 
@@ -58,6 +58,7 @@ npm run build
 - Nextjs API Routes - Backend
 - Sass - CSS
 - MongoDB Atlas - DB Cloud
+- Next-Auth.js - Authentication for Next.js
 - Vercel - Deploy
 
 ---

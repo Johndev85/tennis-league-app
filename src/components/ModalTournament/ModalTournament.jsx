@@ -123,12 +123,12 @@ const ModalTournament = ({
                 placeholder="Location"
                 required
               />
-              <input
+              {/* <input
                 type="file"
                 name="image"
                 accept="image/*"
                 onChange={handleInputChangeUpdate}
-              />
+              /> */}
 
               <button type="submit">Update Tournament</button>
             </form>

@@ -297,21 +297,24 @@ const TournamentPage = () => {
                   />
                 )}
 
-                <div>
+                <div className={styles.textContent}>
                   <h2>{tournament.name}</h2>
-                  <div>
-                    <p>
-                      Start Date:
-                      {new Date(tournament.initial_date).toLocaleDateString()}
-                    </p>
-                    <p>
-                      End Date:
-                      {new Date(tournament.final_date).toLocaleDateString()}
-                    </p>
-                  </div>
+
+                  <p>
+                    <span>Starting: </span>
+                    {new Date(tournament.initial_date).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <span> It ends:</span>
+                    {new Date(tournament.final_date).toLocaleDateString()}
+                  </p>
                 </div>
 
-                <p>Location: {tournament.location}</p>
+                <div className={styles.textContent}>
+                  <p>
+                    <span>Location: </span> {tournament.location}
+                  </p>
+                </div>
 
                 {session && session.user.role === "admin" && (
                   <div className={styles.btnAdmin}>
