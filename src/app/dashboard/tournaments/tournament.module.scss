@@ -69,6 +69,7 @@
       text-transform: capitalize;
     }
     & .cardsContainer {
+      max-height: 500px;
       padding: 20px;
       width: 100%;
       display: flex;
@@ -145,6 +146,7 @@
   .container {
     & .list {
       & .cardsContainer {
+        max-height: none;
         & .card {
           width: 100%;
           flex-direction: column;
