@@ -65,7 +65,12 @@ const UsersListPage = () => {
     fetchData()
   }, [])
 
-  if (loading) return <Loader />
+  if (loading)
+    return (
+      <div className={styles.loading}>
+        <Loader />
+      </div>
+    )
 
   return (
     <section className={styles.container}>
