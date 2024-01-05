@@ -64,7 +64,7 @@ const ProfilePage = () => {
           </span>
         </h1>
 
-        <h4>Account details:</h4>
+        <span>Account details:</span>
 
         <div className={styles.content}>
           <p>
@@ -89,7 +89,7 @@ const ProfilePage = () => {
 
         <section className={styles.listcontent}>
           <div className={styles.title}>
-            <h3>Active Inscriptions:</h3>
+            <h2>Active Inscriptions:</h2>
           </div>
 
           <div className={styles.cardsContent}>
