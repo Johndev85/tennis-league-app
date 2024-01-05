@@ -8,6 +8,17 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 //components
 import ModalUsers from "@/components/ModalUsers/ModalUsers"
 import Loader from "@/components/Loader/Loader"
@@ -78,38 +89,40 @@ const UsersListPage = () => {
 
       <h2>registered users</h2>
 
-      <ul className={styles.table}>
-        <div className={styles.titles}>
-          <li>
-            <span className={styles.cell}>Username</span>
-          </li>
-          <li>
-            <span className={styles.cell}>Email</span>
-          </li>
-          <li>
-            <span className={styles.cell}>Role</span>
-          </li>
-        </div>
+      <div className={styles.table}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Username</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user._id}>
+                <TableCell className="font-medium">{user.username}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell className="text-right">
+                  {
+                    <div className={styles.btnForm}>
+                      <button onClick={() => userUpdate(user._id)}>Edit</button>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => deleteUser(user._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
-        {users.map((user) => (
-          <li key={user._id}>
-            <div className={styles.row}>
-              <span className={styles.cell}>{user.username}</span>
-              <span className={styles.cell}>{user.email}</span>
-              <span className={styles.cell}>{user.role}</span>
-              <div className={styles.btnForm}>
-                <button onClick={() => userUpdate(user._id)}>Edit</button>
-                <button
-                  className={styles.deleteBtn}
-                  onClick={() => deleteUser(user._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
       <ModalUsers
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
